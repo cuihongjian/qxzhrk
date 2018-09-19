@@ -312,6 +312,11 @@ public class MissingController extends Controller{
 		renderJson(data);
 	}
 	
+	/**
+	 * 对视频进行分析，找出含有人物头像的视频截图
+	 * 
+	 * 2018年9月19日 下午12:01:28
+	 */
 	public void anasView() {
 		String[] paths = getParaValues("path[]");
 		if(paths == null || paths.length == 0) {

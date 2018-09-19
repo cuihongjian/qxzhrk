@@ -314,7 +314,7 @@ public class MissingService {
 						pl.setAddress(addr);
 						pl.setCtime(new Date());
 						pl.setMisid(misId);
-						pl.setPicpath(path.replace("src/main/webapp", ""));
+						pl.setPicpath("/viewImg/reimg/" + FileUtil.instance.changepicName(path, ".jpg"));
 						Map<String,Object> plmap = MapUtils.java2Map(pl);
 						pl.save(plmap);
 					}

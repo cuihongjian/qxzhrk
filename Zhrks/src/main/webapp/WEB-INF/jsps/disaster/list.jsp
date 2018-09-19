@@ -66,6 +66,33 @@
 			                	</c:forEach>
 			             	</tbody>
 			            </table>
+			            <!--页码 pagination-->
+						<nav class="mx-3">
+		                	<ul class="pagination font-12">
+		                		<c:choose>  
+					                <c:when test="${disasterList.pageNumber>1 }"> 
+					                	<li class="page-item"><a class="page-link" href="<%=path%>/disaster?p=${disasterList.pageNumber-1}" aria-label="Previous"><i class="fa fa-angle-left"></i></a></li>
+					                </c:when>  
+					                <c:otherwise>  
+					                    <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>  
+					                </c:otherwise>  
+					            </c:choose>  
+					            <c:forEach var="p" begin="1" end="${disasterList.totalPage }">  
+					           		<li <c:choose>
+					            		<c:when test="${disasterList.pageNumber == p}">class="page-item active"</c:when>
+					            		<c:otherwise>class="page-item"</c:otherwise>
+					            	</c:choose>><a class="page-link" href="<%=path%>/disaster?p=${p }">${p }</a></li>
+					            </c:forEach>  
+					            <c:choose>  
+					                <c:when test="${disasterList.pageNumber<disasterList.totalPage}">
+					                	<li class="page-item"><a class="page-link" href="<%=path%>/disaster?p=${disasterList.pageNumber + 1}" aria-label="Next"><i class="fa fa-angle-right"></i></a></li> 
+					                </c:when>  
+					                <c:otherwise>  
+					                    <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
+					                </c:otherwise>  
+					            </c:choose>
+		                	</ul>
+		                </nav>
 		          	</div>
 			    </div>
 		        <c:import url="/common/footer.jsp"></c:import>

@@ -83,11 +83,9 @@
 						                  			<c:when test="${missing.INFSTATE == '待审核' || missing.INFSTATE ==  '待审核未通过'}">
 							                  			<button class="btn btn-info btn-sm my-1" onclick="status(${missing.ID})" data-toggle="modal"><i class="fa fa-check mr-1"></i>审核</button>
 							                  		</c:when>
-							                  		<c:when test="${missing.INFSTATE == '审核通过' || missing.INFSTATE == '上传公视平台' }">
+							                  		<c:otherwise>	
 							                  			<button class="btn btn-info btn-sm my-1" type="button" onclick="ans(${missing.ID})" data-toggle="modal" ><i class="fa fa-gears mr-1"></i>分析</button>
 							                  			<button class="btn btn-info btn-sm my-1" type="button" onclick="route(${missing.ID})" data-toggle="modal" ><i class="fa fa-gears mr-1"></i>轨迹</button>
-							                  		</c:when>
-							                  		<c:otherwise>	
 							                  		</c:otherwise>
 						                  		</c:choose>
 				                  			</c:otherwise>

@@ -179,7 +179,6 @@
 			alert("选择的视频应小于两个。");
 			return false;
 		}
-		$("#videosModal").modal("hide");
 		$.ajax({
 			async : false,
 			type : "POST",
@@ -187,6 +186,7 @@
 			url : basePath + "/missing/anasView",
 			dataType : 'json',
 			success : function(ret) {
+				$("#videosModal").modal("hide");
 				if(ret.state == "ok"){
 					var msg = ret.msg;
 					var html = "";
@@ -292,12 +292,15 @@
 						picHtml = picHtml + "<figure class=\"figure\"><img src=\""+basePath + data[i].PICPATH+"\" height=\"189\" width=\"129\" class=\"figure-img img-fluid rounded img-thumbnail\" >"+
 						   "<figcaption class=\"figure-caption\">"+data[i].ADDRESS+"</figcaption></figure>"
 					}
-					$("#area").html(areaHtml);
-					$("#picList").html(picHtml);
+					$("#videoArea").html(areaHtml);
+					$("#videopicList").html(picHtml);
+					$('#StartWastonAnalysisHave').modal('show');
+					$("#send").attr("style","display:none;");
+					$("#seState").attr("style","display:block;");
+				}else{
+					alert("没有找到失踪者的轨迹信息。");
 				}
-				$('#StartWastonAnalysisHave').modal('show');
-				$("#send").attr("style","display:none;");
-				$("#seState").attr("style","display:block;");
+				
 			}
 		});
 	}
