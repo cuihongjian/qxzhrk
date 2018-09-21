@@ -216,7 +216,7 @@
 			dataType : 'json',
 			success : function(data) {
 				$('#AnalysisVideo').modal('hide');
-				if(data.length > 0){
+				if(data.length > 1){
 					$("#misId").val(misId);
 					$("#videoArea").text(data[0].addr);
 					var picHtml = "";

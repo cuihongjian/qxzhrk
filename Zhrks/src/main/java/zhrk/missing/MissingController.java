@@ -88,11 +88,15 @@ public class MissingController extends Controller{
 	 */
 	public void imageUpload() {
 		UploadFile uploadFile = getFile();//在磁盘上保存文件
-        String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
-        String fileName = uploadFile.getFileName();//获取保存文件的文件名
-        String filePath = uploadPath+"\\"+fileName;//保存文件的路径
-        Ret ret = srv.uploadImg(filePath,fileName,"/upload/");
-        renderJson(ret); 
+		if(uploadFile == null) {
+			renderJson(Ret.fail("msg", "请选择需要上传的文件。"));
+		}else {
+			String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
+	        String fileName = uploadFile.getFileName();//获取保存文件的文件名
+	        String filePath = uploadPath+"\\"+fileName;//保存文件的路径
+	        Ret ret = srv.uploadImg(filePath,fileName,"/upload/");
+	        renderJson(ret); 
+		}
     }
 	
 	/**

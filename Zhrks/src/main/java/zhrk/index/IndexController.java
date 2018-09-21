@@ -1,4 +1,6 @@
 package zhrk.index;
+import javax.servlet.http.HttpSession;
+
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
@@ -66,6 +68,8 @@ public class IndexController extends Controller{
 			String sessionId = ret.getStr(IndexService.sessionIdName);
 			int maxAgeInSeconds = ret.getInt("maxAgeInSeconds");
 			setCookie(IndexService.sessionIdName, sessionId, maxAgeInSeconds, true);
+			HttpSession session = getSession();
+			session.setMaxInactiveInterval(60*60*2);
 			setSessionAttr("user", ret.get(IndexService.loginAccountCacheName));
 		}
 		renderJson(ret);

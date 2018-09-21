@@ -56,6 +56,8 @@
     <script type="text/javascript" src="<%=path %>/Scripts/app.js"></script>
     <script type="text/javascript" src="<%=path %>/Scripts/theme-switcher.min.js"></script>
     <script type="text/javascript" src="<%=path %>/Scripts/echarts.common.min.js"></script>
+    <script type="text/javascript" src="<%=path %>/Scripts/js/macarons.js"></script>
+    <script type="text/javascript" src="<%=path %>/Scripts/js/shine.js"></script>
 	<!--Custom js-->
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -113,7 +115,7 @@
 	    		        }
 	    		    ]
 	    		};
-	    	 var chartOutChar = echarts.init(document.getElementById('sexDiv'));
+	    	 var chartOutChar = echarts.init(document.getElementById('sexDiv'),'shine');
 	    	 chartOutChar.setOption(option);
 	    }
 	    
@@ -152,7 +154,7 @@
 	    		        type: 'bar'
 	    		    }]
 	    		};
-	    	 var chartOutChar = echarts.init(document.getElementById('bloodDiv'));
+	    	 var chartOutChar = echarts.init(document.getElementById('bloodDiv'),'shine');
 	    	 chartOutChar.setOption(option);
 	    }
 	    

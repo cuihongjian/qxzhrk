@@ -2,6 +2,7 @@ package zhrk.disaster;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import zhrk.common.model.QxCamarea;
 import zhrk.common.model.QxDisResult;
 import zhrk.common.model.QxDisUser;
 import zhrk.common.model.QxDisaster;
+import zhrk.utils.CountUtils;
 import zhrk.utils.FileUtil;
 import zhrk.utils.MapUtils;
 import zhrk.utils.baidu.FaceMatch;
@@ -143,18 +145,25 @@ public class DisasterService {
 
 	/**
 	 * 获取对视频截取的图片列表
+	 * @param flag 
 	 * 
 	 * @return 2018年8月17日 上午11:22:04
 	 */
-	public List<String> getImgPaths() {
-		File file = new File("src/main/webapp/viewImg/img");
+	public List<String> getImgPaths(Integer flag) {
+		String path = "";
+		if(flag == null) {
+			path = "src/main/webapp/viewImg/img";
+		}else {
+			path = "src/main/webapp/viewImg/10";
+		}
+		File file = new File(path);
 		if (!file.exists()) {
 			return null;
 		}
 		String[] content = file.list();
 		List<String> list = new ArrayList<>();
 		for (String name : content) {
-			list.add("src/main/webapp/viewImg/img/" + name);
+			list.add(path + "/" + name);
 		}
 		return list;
 	}
@@ -215,7 +224,9 @@ public class DisasterService {
 			/*
 			 * boolean flag = AnalytisPicUtil.faceAnalytis(path); if(!flag) continue;
 			 */
+			System.out.println("开始时间 ："+ new Date());
 			List<ClassScorePo> classList = AnalytisPicUtil.getClassScore(path);
+			System.out.println("结束时间：" + new Date());
 			if (classList == null || classList.size() == 0)
 				continue;
 			String userCode = classList.get(0).getClassName();
@@ -310,7 +321,7 @@ public class DisasterService {
 				deleteDir("src/main/webapp/viewImg/img");
 				for (int i = 0; i < d_s.intValue(); i++) {
 					// 设置视频的位置(单位:毫秒)
-					cap.set(opencv_highgui.CV_CAP_PROP_POS_MSEC, i * 3000);
+					cap.set(opencv_highgui.CV_CAP_PROP_POS_MSEC, i * 1000);
 					// 读取下一帧画面
 					if (cap.read(frame)) {
 						count++;

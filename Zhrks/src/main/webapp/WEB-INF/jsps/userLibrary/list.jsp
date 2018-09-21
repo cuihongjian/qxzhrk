@@ -114,7 +114,7 @@
 			         	<span aria-hidden="true">&times;</span>
 			        </button>
 			     </div>
-			     <form class="registerform am-form" id="userLibraryForm" action="" method="post">
+			     <form class="registerform am-form" id="userLibraryForm" action="" method="post" enctype="multipart/form-data">
 		      	    <input type="hidden" id="UserLibraryId" name="userLibrary.id" value="">
 		      	    <div class="modal-body text-center">
 					  	<div class="form-group row">

@@ -147,7 +147,7 @@
 					    	</div>
 					  	</div>
 					  	<div class="form-group row">
-					    	<label for="opentime" class="col-sm-3 col-form-label col-form-label-sm">结束时间</label>
+					    	<label for="opentime" class="col-sm-3 col-form-label col-form-label-sm">发生时间</label>
 					    	<div class="input-group date form_datetime col-md-9" data-date="" data-date-format="yyyy-mm-dd hh:ii:ss">
 					      		<input id="opentime" name="disaster.opentime" class="form-control form-control-md" size="16" type="text" value="" readonly>
                    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -166,6 +166,35 @@
 			        	<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
 			      	</div>
 		      	</form>
+	    	</div>
+	  	</div>
+	</div>
+	
+	<!-- 开始Waston分析未找到结果页弹出框 -->
+	<div class="modal fade  bd-example-modal-lg" id="picAnas" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+	  	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    	<div class="modal-content">
+	    		<input type="hidden" id="noMisId">
+	      		<div class="modal-header bg-info text-white">
+			        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-lightbulb-o mr-1"></i>Waston分析</h5>
+			     </div>
+		      	<div class="modal-body text-center">
+		        	<i class="fa fa-spinner fa-spin text-info mr-1" aria-hidden="true"></i>正在分析请稍等！
+		      	</div>
+	    	</div>
+	  	</div>
+	</div>
+	
+	<!-- 开始视频截图 -->
+	<div class="modal fade  bd-example-modal-lg" id="videoAnasModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+	  	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    	<div class="modal-content">
+	      		<div class="modal-header bg-info text-white">
+			        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-lightbulb-o mr-1"></i>视频分析</h5>
+			     </div>
+		      	<div class="modal-body text-center">
+		        	<i class="fa fa-spinner fa-spin text-info mr-1" aria-hidden="true"></i>正在分析视频请稍等！
+		      	</div>
 	    	</div>
 	  	</div>
 	</div>
@@ -301,6 +330,7 @@
 				if (ret.state == "ok") {
 					$('#uploadVideo').modal('hide');
 					alert("视频上传成功，开始分析人物图像");
+					$("#videoAnasModal").modal('show');
 					var values = []; 
 					values.push(ret.msg); 
 					var id = ret.misId;
@@ -441,6 +471,7 @@
 			return false;
 		}
 		$("#videosModal").modal("hide");
+		$("#videoAnasModal").modal('show');
 		$.ajax({
 			async : false,
 			type : "POST",
@@ -454,15 +485,20 @@
 						html = html + "<figure class=\"figure\"><img src=\""+<%=path %>data[i]+"\" height=\"189\" width=\"129\" class=\"figure-img img-fluid rounded img-thumbnail\" ></figure>";
 					}
 					$("#picList").html(html);
+					$('#AnalysisVideo').modal('show');
+				}else{
+					alert("没有发现人物信息");
 				}
 			}
 		});
-		$('#AnalysisVideo').modal('show');
 	}
 	
 	//人物比对，调用接口与人口基本信息库中进行对比 
 	function contrast(){
 		var misId = $("#misId").val();
+		$("#videoAnasModal").modal('hide');
+		$('#AnalysisVideo').modal('hide');
+		$('#picAnas').modal('show');
 		$.ajax({
 			async : false,
 			type : "POST",
@@ -470,9 +506,9 @@
 			url : "<%=path %>/disaster/contrast",
 			dataType : 'json',
 			success : function(data) {
-				$('#AnalysisVideo').modal('hide');
+				$('#picAnas').modal('hide');
 				alert("分析完毕，共发现"+ data.length + "个人");
-				location.href = "<%=path %>/disaster/findByDisId/"+misId;
+				location.href = "<%=path %>/disaster/findEchartByDisId/"+misId;
 			}
 		});
 	}

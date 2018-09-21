@@ -9,6 +9,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import zhrk.common.model.QxDisaster;
+import zhrk.utils.CountUtils;
 import zhrk.utils.EncryptUtil;
 
 public class DisasterController extends Controller{
@@ -96,12 +97,25 @@ public class DisasterController extends Controller{
 	 * 2018年8月17日 上午11:12:05
 	 */
 	public void contrast() {
+		Integer flag = getSessionAttr("flag");
 		Integer disId =  getParaToInt("misId");
-		List<String> paths = srv.getImgPaths();	
+		List<String> paths = srv.getImgPaths(flag);	
 		//调用接口，对照片进行对比，有相关人员，则返回新的人员列表
-		List<Record> userList = srv.getUserlist();
+		//List<Record> userList = srv.getUserlist();
 		//List<Record> data = srv.contrast(paths,userList);
 		List<Record> data = srv.contrastByIbm(paths,disId);
+		setSessionAttr("picData", data);
+		if(flag == null) {
+			setSessionAttr("flag", 0);
+		}else {
+			Boolean result = CountUtils.getCount();
+			if(result) {
+				setSessionAttr("flag", 0);
+			}
+			else {
+				setSessionAttr("flag", 1);
+			}
+		}
 		renderJson(data);
 	}
 	
@@ -113,12 +127,16 @@ public class DisasterController extends Controller{
 	public void upload() {
 		Integer misId = getParaToInt(0);
 		UploadFile uploadFile = getFile("videoName","\\view\\");//在磁盘上保存文件
-        String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
-        String fileName = uploadFile.getFileName();//获取保存文件的文件名
-        String filePath = uploadPath+fileName;//保存文件的路径
-        Ret pathRet = srv.editPicPath(filePath,fileName,"/upload/view/");
-        pathRet.set("misId", misId);
-        renderJson(pathRet);
+		if(uploadFile == null) {
+			renderJson(Ret.fail("msg", "请选择上传的视频文件。"));
+		}else {
+			String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
+	        String fileName = uploadFile.getFileName();//获取保存文件的文件名
+	        String filePath = uploadPath+fileName;//保存文件的路径
+	        Ret pathRet = srv.editPicPath(filePath,fileName,"/upload/view/");
+	        pathRet.set("misId", misId);
+	        renderJson(pathRet);
+		}
 	}
 	
 	/**

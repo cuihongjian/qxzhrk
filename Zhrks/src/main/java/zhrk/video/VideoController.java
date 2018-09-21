@@ -26,18 +26,22 @@ public class VideoController extends Controller{
 	public void addVideo(){
 		try {
 			UploadFile uploadFile = getFile("videoName", "\\video\\");//在磁盘上保存文件
-			String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
-			String fileName = uploadFile.getFileName();//获取保存文件的文件名
-			String filePath = uploadPath+fileName;//保存文件的路径
-			Ret pathRet = srv.editPicPath(filePath,fileName,"/upload/video/");
-			if(pathRet.isOk()) {
-				String path = pathRet.getStr("msg");
-				QxVideoLibrary video = getBean(QxVideoLibrary.class,"video");
-				video.setVideopath(path);
-				Ret ret = srv.addVideo(video);
-				renderJson(ret);
+			if(uploadFile == null) {
+				renderJson(Ret.fail("msg", "请选择上传的视频文件。"));
 			}else {
-				renderJson(pathRet);
+				String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
+				String fileName = uploadFile.getFileName();//获取保存文件的文件名
+				String filePath = uploadPath+fileName;//保存文件的路径
+				Ret pathRet = srv.editPicPath(filePath,fileName,"/upload/video/");
+				if(pathRet.isOk()) {
+					String path = pathRet.getStr("msg");
+					QxVideoLibrary video = getBean(QxVideoLibrary.class,"video");
+					video.setVideopath(path);
+					Ret ret = srv.addVideo(video);
+					renderJson(ret);
+				}else {
+					renderJson(pathRet);
+				}
 			}
 		} catch (Exception e) {
 			renderJson(Ret.fail("msg", "上传视频过大，应小于100M."));

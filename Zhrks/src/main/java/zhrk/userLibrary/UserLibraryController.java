@@ -72,19 +72,25 @@ public class UserLibraryController extends Controller{
 	 */
 	public void upUserLibrary(){
 		UploadFile uploadFile = getFile("imageName", "\\photo\\");//在磁盘上保存文件
-        String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
-        String fileName = uploadFile.getFileName();//获取保存文件的文件名
-        String filePath = uploadPath+fileName;//保存文件的路径
-        Ret pathRet = srv.editPicPath(filePath,fileName,"/upload/photo/");
-        if(pathRet.isOk()) {
-        	String path = pathRet.getStr("msg");        	
-        	QxUserLibrary userLibrary = getBean(QxUserLibrary.class,"userLibrary");
-        	userLibrary.setPicpath(path);
+		if(uploadFile == null) {
+			QxUserLibrary userLibrary = getBean(QxUserLibrary.class,"userLibrary");
     		Ret ret = srv.upUserLibrary(userLibrary);
     		renderJson(ret);
-        }else {
-        	renderJson(pathRet);
-        }
+		}else {
+			String uploadPath = uploadFile.getUploadPath();//获取保存文件的文件夹
+	        String fileName = uploadFile.getFileName();//获取保存文件的文件名
+	        String filePath = uploadPath+fileName;//保存文件的路径
+	        Ret pathRet = srv.editPicPath(filePath,fileName,"/upload/photo/");
+	        if(pathRet.isOk()) {
+	        	String path = pathRet.getStr("msg");        	
+	        	QxUserLibrary userLibrary = getBean(QxUserLibrary.class,"userLibrary");
+	        	userLibrary.setPicpath(path);
+	    		Ret ret = srv.upUserLibrary(userLibrary);
+	    		renderJson(ret);
+	        }else {
+	        	renderJson(pathRet);
+	        }
+		}
 	}
 	
 	/**

@@ -31,6 +31,7 @@ public class AnalytisPicUtil {
 			}
 		}*/
 		//upModel("黄蓉", "E:/model/黄蓉.zip");
+		//human_1067421620
 		System.out.println(faceAnalytis("E:/model/3.JPG"));
 	}
 	/**
@@ -52,8 +53,8 @@ public class AnalytisPicUtil {
 			ClassifyOptions classifyOptions = new ClassifyOptions.Builder()
 				.imagesFile(imagesStream)
 				.imagesFilename("human")
-				.threshold((float) 0.70)
-				.classifierIds(Arrays.asList("human_1067421620"))
+				.threshold((float) 0.3)
+				.classifierIds(Arrays.asList("human_1547023132"))
 				.build();
 			ClassifiedImages result = service.classify(classifyOptions).execute();
 			JSONObject jsonObject = new JSONObject(result);
@@ -101,7 +102,7 @@ public class AnalytisPicUtil {
 		IamOptions options = new IamOptions.Builder().apiKey("E_KL9V22pwMAeVgbETwIaZxU3q7lZnfqDBjpUGTOISSZ").build();
 
 		VisualRecognition service = new VisualRecognition("2018-03-19", options);
-		String classifierId = "human_1067421620";
+		String classifierId = "human_1547023132";
 
 		try {
 			InputStream negativeExamples = new FileInputStream("E:/model/崔健.zip");
