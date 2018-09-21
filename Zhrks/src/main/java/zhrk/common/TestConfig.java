@@ -34,6 +34,9 @@ import zhrk.video.VideoController;
 public class TestConfig extends JFinalConfig {
 
 	public static void main(String[] args) {
+		/**
+		 * 测试上传
+		 */
 		JFinal.start("src/main/webapp", 80, "/", 5);
 	}
 
